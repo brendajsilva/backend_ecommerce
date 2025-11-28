@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize')
 require('dotenv').config()
+const { Sequelize } = require('sequelize')
 
 // lógica: se existir uma DATABASE_URL (mysql://user:pass@host:port/dbname) usa ela.
 // Senão tenta variáveis separadas (DB_NAME, DB_USER, DB_PASS, DB_HOST, DB_PORT).
@@ -28,7 +28,7 @@ function getConnectionConfig() {
   if (process.env.DB_NAME && process.env.DB_USER) {
     const db = process.env.DB_NAME
     const user = process.env.DB_USER
-    const pass = process.env.DB_PASS || ''
+    const pass = process.env.DB_PASS || 'senai'
     const host = process.env.DB_HOST || 'localhost'
     const port = process.env.DB_PORT || 3306
     const uri = `mysql://${user}:${encodeURIComponent(pass)}@${host}:${port}/${db}`
