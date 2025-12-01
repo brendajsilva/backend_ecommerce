@@ -27,6 +27,10 @@ app.use('/api/pedidos', pedidoRoutes)
 app.use('/api/enderecos', enderecoRoutes)
 app.use('/api/contato', contatoRoutes)
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'))
+})
+
 async function startServer() {
   try {
     if (!isProduction) {
