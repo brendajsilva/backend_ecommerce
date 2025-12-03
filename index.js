@@ -22,8 +22,8 @@ app.use(cors({
     credentials: true
 }));
 
-// Middleware para garantir que OPTIONS responda 200
-app.options("/*", cors());
+// Middleware para garantir que OPTIONS responda 200 (CORRIGIDO)
+app.options("/*", cors());  // ← CORREÇÃO AQUI: "*" -> "/*"
 
 // =========================
 // 🔥 2. IMPORTAR ROTAS
