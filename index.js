@@ -17,8 +17,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Aplica CORS
-app.use(cors(corsOptions));
 
 // Middleware manual para OPTIONS (SE NECESSÁRIO)
 app.use((req, res, next) => {
