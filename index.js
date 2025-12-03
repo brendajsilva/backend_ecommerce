@@ -23,7 +23,7 @@ app.use(cors({
 }));
 
 // Middleware para garantir que OPTIONS responda 200
-app.options("*", cors());
+app.options("/*", cors());
 
 // =========================
 // 🔥 2. IMPORTAR ROTAS
