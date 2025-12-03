@@ -1,72 +1,76 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const app = express();
-const conn = require("./db/conn");
-const path = require('path');
+// index.js — Backend corrigido e compatível com Railway + Front Vercel
 
-// =======================
-// CONFIGURAÇÃO DE CORS
-// =======================
+const express = require("express");
+const cors = require("cors");
+const app = express();
+require("dotenv").config();
+
+// =========================
+// 🔥 1. MIDDLEWARES GERAIS
+// =========================
+
+app.use(express.json());
+
+// ⚠ CORS COMPLETO (Corrige seu erro principal)
 app.use(cors({
-  origin: "https://front-ecommerce-henna.vercel.app",
-  methods: "GET,POST,PUT,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type,Authorization"
+    origin: [
+        "https://front-ecommerce-henna.vercel.app",   // seu frontend
+        "http://localhost:5173",
+        "http://localhost:3000"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
 }));
 
-// Libera preflight para todas as rotas
-app.options('*', cors());
+// Middleware para garantir que OPTIONS responda 200
+app.options("*", cors());
 
-// =======================
-// MIDDLEWARES
-// =======================
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// =========================
+// 🔥 2. IMPORTAR ROTAS
+// =========================
 
-// =======================
-// ROTAS
-// =======================
-const usuarioRoutes = require('./routes/usuarioRoutes');
-const produtoRoutes = require('./routes/produtoRoutes');
-const pedidoRoutes = require('./routes/pedidoRoutes');
-const enderecoRoutes = require('./routes/enderecoRoutes');
-const contatoRoutes = require('./routes/contatoRoutes');
+const produtoRoutes = require("./produtoRoutes"); 
+const usuarioRoutes = require("./usuarioRoutes"); 
+const pedidoRoutes = require("./pedidoRoutes");
+const enderecoRoutes = require("./enderecoRoutes");
 
-app.use('/api/usuarios', usuarioRoutes);
-app.use('/api/produtos', produtoRoutes);
-app.use('/api/pedidos', pedidoRoutes);
-app.use('/api/enderecos', enderecoRoutes);
-app.use('/api/contato', contatoRoutes);
+// =========================
+// 🔥 3. DEFINIR ROTAS BASE
+// =========================
 
-// Alias opcional caso seu front ainda chame /api/products
-app.use('/api/products', produtoRoutes);
+// ✔ Rota correta para produtos (corrigido!)
+app.use("/api/produtos", produtoRoutes);
 
-// =======================
-// ROTA BASE
-// =======================
-app.get('/', (req, res) => {
-  res.send("API BACKEND ONLINE ✔");
+// ✔ Compatibilidade com seu front antigo
+app.use("/api/products", produtoRoutes);
+
+// ✔ Outras rotas do seu backend
+app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/pedidos", pedidoRoutes);
+app.use("/api/enderecos", enderecoRoutes);
+
+// =========================
+// 🔥 4. ROTA DE TESTE
+// =========================
+
+app.get("/", (req, res) => {
+    res.json({ message: "API funcionando! 🚀" });
 });
 
-// =======================
-// INICIAR SERVIDOR
-// =======================
+// =========================
+// 🔥 5. ERROS GLOBAIS
+// =========================
+
+app.use((err, req, res, next) => {
+    console.error("🔥 ERRO NO SERVIDOR:", err);
+    res.status(500).json({ error: "Erro interno no servidor" });
+});
+
+// =========================
+// 🔥 6. INICIAR SERVIDOR
+// =========================
+
 const PORT = process.env.PORT || 3000;
-const HOST = "0.0.0.0";
-
-async function startServer() {
-  try {
-    await conn.authenticate();
-    console.log("Banco conectado com sucesso!");
-
-    app.listen(PORT, HOST, () => {
-      console.log(`Servidor rodando em http://${HOST}:${PORT}`);
-    });
-
-  } catch (err) {
-    console.error("Erro ao iniciar servidor:", err);
-    process.exit(1);
-  }
-}
-
-startServer();
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+});

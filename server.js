@@ -50,7 +50,7 @@ const enderecoRoutes = require('./routes/enderecoRoutes');
 const contatoRoutes = require('./routes/contatoRoutes');
 
 app.use('/api/usuarios', usuarioRoutes);
-app.use('/api/produtos', produtoRoutes);
+app.use('/api/productions', produtoRoutes);
 app.use('/api/pedidos', pedidoRoutes);
 app.use('/api/enderecos', enderecoRoutes);
 app.use('/api/contato', contatoRoutes);
