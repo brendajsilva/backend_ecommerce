@@ -43,10 +43,10 @@ const enderecoRoutes = require("./routes/enderecoRoutes");
 // 🔥 3. DEFINIR ROTAS BASE
 // =========================
 
-app.use("/api/produtos", produtoRoutes);
-app.use("/api/usuarios", usuarioRoutes);
-app.use("/api/pedidos", pedidoRoutes);
-app.use("/api/enderecos", enderecoRoutes);
+app.use("/produtos", produtoRoutes);
+app.use("/usuarios", usuarioRoutes);
+app.use("/pedidos", pedidoRoutes);
+app.use("/enderecos", enderecoRoutes);
 
 // =========================
 // 🔥 4. ROTA DE TESTE
