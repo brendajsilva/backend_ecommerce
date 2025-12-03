@@ -11,24 +11,16 @@ require("dotenv").config();
 
 app.use(express.json());
 
+// CORS corrigido — aceita os 2 frontends da Vercel
 app.use(cors({
-  origin: 'https://ecommerce-three-eta-40.vercel.app', // A URL exata do seu front na Vercel (sem barra no final)
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: [
+    "https://ecommerce-three-eta-40.vercel.app",
+    "https://front-ecommerce-henna.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
-
-
-// Middleware manual para OPTIONS (SE NECESSÁRIO)
-app.use((req, res, next) => {
-    if (req.method === "OPTIONS") {
-        res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-        res.header("Access-Control-Allow-Credentials", "true");
-        return res.status(200).end();
-    }
-    next();
-});
 
 // =========================
 // 🔥 2. IMPORTAR ROTAS
@@ -53,7 +45,7 @@ app.use("/enderecos", enderecoRoutes);
 // =========================
 
 app.get("/", (req, res) => {
-    res.json({ message: "API funcionando! 🚀" });
+  res.json({ message: "API funcionando! 🚀" });
 });
 
 // =========================
@@ -61,8 +53,8 @@ app.get("/", (req, res) => {
 // =========================
 
 app.use((err, req, res, next) => {
-    console.error("🔥 ERRO NO SERVIDOR:", err);
-    res.status(500).json({ error: "Erro interno no servidor" });
+  console.error("🔥 ERRO NO SERVIDOR:", err);
+  res.status(500).json({ error: "Erro interno no servidor" });
 });
 
 // =========================
@@ -70,6 +62,7 @@ app.use((err, req, res, next) => {
 // =========================
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
