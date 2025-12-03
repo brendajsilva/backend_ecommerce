@@ -11,19 +11,32 @@ require("dotenv").config();
 
 app.use(express.json());
 
-// ⚠ CORS COMPLETO (Corrige seu erro principal)
-app.use(cors({
+// ⚠ CORS COMPLETO
+const corsOptions = {
     origin: [
-        "https://front-ecommerce-henna.vercel.app",   // seu frontend
+        "https://front-ecommerce-henna.vercel.app",
         "http://localhost:5173",
         "http://localhost:3000"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
-}));
+};
 
-// Middleware para garantir que OPTIONS responda 200 (CORRIGIDO)
-app.options("/*", cors());  // ← CORREÇÃO AQUI: "*" -> "/*"
+// Aplica CORS
+app.use(cors(corsOptions));
+
+// Middleware manual para OPTIONS (SE NECESSÁRIO)
+app.use((req, res, next) => {
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        res.header("Access-Control-Allow-Credentials", "true");
+        return res.status(200).end();
+    }
+    next();
+});
 
 // =========================
 // 🔥 2. IMPORTAR ROTAS
@@ -38,13 +51,8 @@ const enderecoRoutes = require("./enderecoRoutes");
 // 🔥 3. DEFINIR ROTAS BASE
 // =========================
 
-// ✔ Rota correta para produtos (corrigido!)
 app.use("/api/produtos", produtoRoutes);
-
-// ✔ Compatibilidade com seu front antigo
 app.use("/api/products", produtoRoutes);
-
-// ✔ Outras rotas do seu backend
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/pedidos", pedidoRoutes);
 app.use("/api/enderecos", enderecoRoutes);
