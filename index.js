@@ -22,7 +22,7 @@ const contatoRoutes = require('./routes/contatoRoutes')
 
 // Usar rotas
 app.use('/api/usuarios', usuarioRoutes)
-app.use('/api/produtos', produtoRoutes)
+app.use('/api/products', produtoRoutes)
 app.use('/api/pedidos', pedidoRoutes)
 app.use('/api/enderecos', enderecoRoutes)
 app.use('/api/contato', contatoRoutes)
