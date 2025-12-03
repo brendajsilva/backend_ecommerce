@@ -42,17 +42,16 @@ app.use((req, res, next) => {
 // 🔥 2. IMPORTAR ROTAS
 // =========================
 
-const produtoRoutes = require("./produtoRoutes"); 
-const usuarioRoutes = require("./usuarioRoutes"); 
-const pedidoRoutes = require("./pedidoRoutes");
-const enderecoRoutes = require("./enderecoRoutes");
+const produtoRoutes = require("./routes/produtoRoutes");
+const usuarioRoutes = require("./routes/usuarioRoutes"); 
+const pedidoRoutes = require("./routes/pedidoRoutes");
+const enderecoRoutes = require("./routes/enderecoRoutes");
 
 // =========================
 // 🔥 3. DEFINIR ROTAS BASE
 // =========================
 
 app.use("/api/produtos", produtoRoutes);
-app.use("/api/products", produtoRoutes);
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/pedidos", pedidoRoutes);
 app.use("/api/enderecos", enderecoRoutes);
