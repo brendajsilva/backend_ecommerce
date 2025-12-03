@@ -11,17 +11,11 @@ require("dotenv").config();
 
 app.use(express.json());
 
-// ⚠ CORS COMPLETO
-const corsOptions = {
-    origin: [
-        "https://front-ecommerce-henna.vercel.app",
-        "http://localhost:5173",
-        "http://localhost:3000"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-};
+app.use(cors({
+  origin: 'https://ecommerce-three-eta-40.vercel.app', // A URL exata do seu front na Vercel (sem barra no final)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Aplica CORS
 app.use(cors(corsOptions));
