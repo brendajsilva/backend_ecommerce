@@ -14,6 +14,8 @@ app.use(express.json());
 // CORS corrigido — aceita os 2 frontends da Vercel
 app.use(cors({
   origin: [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
     "https://ecommerce-three-eta-40.vercel.app",
     "https://front-ecommerce-henna.vercel.app"
   ],
